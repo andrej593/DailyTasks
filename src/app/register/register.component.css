@@ -1,0 +1,30 @@
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.container{
+    width: 100%;
+}
+mat-card{
+    border-radius: 1vw;
+    margin-top: 1rem;
+    width: 50%;     /* TODO make media if so when you have small width its still good*/
+}
+mat-card-header, mat-card-footer{
+    background-color: lightgray;
+    padding: 1rem;
+}
+mat-card-header{
+    margin-bottom: 1rem;
+    border-top-left-radius: 1vw;
+    border-top-right-radius: 1vw;
+}
+mat-card-footer{
+    border-bottom-left-radius: 1vw;
+    border-bottom-right-radius: 1vw;
+}
+mat-form-field{
+    width: 100%;
+}
+

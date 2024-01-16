@@ -1,0 +1,50 @@
+<div class="container center" >
+    <mat-card>
+        <mat-card-header class="center">
+            <mat-card-title>REGISTRATION FORM</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <form class="" [formGroup]="registerForm">
+                <mat-form-field>
+                    <mat-label>Name</mat-label>
+                    <input matInput formControlName="name" placeholder="John" required>
+                    <mat-error>{{getControlError("name")}}</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Surname</mat-label>
+                    <input matInput formControlName="surname" placeholder="Doe" required>
+                    <mat-error>{{getControlError("surname")}}</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Email</mat-label>
+                    <input matInput formControlName="email" placeholder="John.Doe@gmail.com" required>
+                    <mat-error>{{getControlError("email")}}</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Password</mat-label>
+                    <input matInput formControlName="password" [type]="hiden ? 'password' : 'text'" placeholder="password" required>
+                    <button mat-icon-button matSuffix (click)="hiden = !hiden">
+                        <mat-icon>{{hiden ? 'visibility' : 'visibility_off'}}</mat-icon>
+                    </button>
+                    <mat-hint></mat-hint>
+                    <mat-error>{{getControlError("password")}}</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Confirm password</mat-label>
+                    <input matInput formControlName="passwordConfirm" [type]="hiden ? 'password' : 'text'" placeholder="confirm password" required>
+                    <button mat-icon-button matSuffix (click)="hiden = !hiden">
+                        <mat-icon>{{hiden ? 'visibility' : 'visibility_off'}}</mat-icon>
+                    </button>
+                    <mat-hint></mat-hint>
+                    <mat-error>{{getControlError("passwordConfirm")}}</mat-error>
+                </mat-form-field>
+                <mat-error>{{getFormError()}}</mat-error>
+            </form>
+        </mat-card-content>
+        <mat-card-footer class="center">
+            <mat-card-actions>
+                <button mat-raised-button color="primary" (click)="sumbitForm()">Register</button>
+            </mat-card-actions>
+        </mat-card-footer>
+    </mat-card>
+</div>
