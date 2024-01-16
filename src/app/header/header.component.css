@@ -1,0 +1,15 @@
+mat-toolbar{
+    display: flex;
+    justify-content: space-between;
+}
+.logo{
+    margin-left: 20vw;
+    font-size: 1.5rem;
+}
+.links{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    margin-right: 20vw;
+}

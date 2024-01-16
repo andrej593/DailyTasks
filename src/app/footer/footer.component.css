@@ -1,0 +1,9 @@
+span{
+    display: flex;
+    align-items: center;
+}
+mat-toolbar{
+    position: fixed;
+    bottom: 0;
+    justify-content: center;
+}

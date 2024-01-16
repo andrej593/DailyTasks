@@ -1,1 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+a{
+    /* to have text and icon on same height*/
+    display: flex;
+    align-items: center;
+    /* remove a styling*/
+    text-decoration: none;
+    color:black;
+    /**/
+    border-radius: 0.5em;
+    padding: 0.5em;
+    margin-right: 0.5em;
+}
+a:hover:not(.no-hover){
+    background-color: darkgrey;
+}
+a:active{
+    color:blue;
+}
