@@ -6,9 +6,10 @@
         <div class="links">
             <a href="#"><mat-icon>article</mat-icon> list</a>
 
-            <a href="#"><mat-icon>logout</mat-icon>Logout</a>
-            <a routerLink="login" routerLinkActive="active"><mat-icon>login</mat-icon>Login</a>
-            <a routerLink="register" routerLinkActive="active"><mat-icon>person_add</mat-icon>Register</a>
+            <a (click)="logout()" *ngIf="authService.isLoggedIn() !== null"><mat-icon>logout</mat-icon>Logout</a>
+
+            <a routerLink="login" routerLinkActive="active" *ngIf="authService.isLoggedIn() === null"><mat-icon>login</mat-icon>Login</a>
+            <a routerLink="register" routerLinkActive="active" *ngIf="authService.isLoggedIn() === null"><mat-icon>person_add</mat-icon>Register</a>
         </div>
 </mat-toolbar>
 <!-- TODO SIDENAV, @MEDIA-->

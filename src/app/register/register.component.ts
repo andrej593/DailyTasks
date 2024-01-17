@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MaterialsModule } from '../material/material.module';
 import { FormControl, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 @Component({
@@ -13,12 +13,11 @@ import { Router } from '@angular/router';
 })
 
 export class RegisterComponent {
-  constructor(
-    private http: HttpClient,
-    private router: Router
-  ) { }
+  http = inject(HttpClient);
+  router = inject(Router);
 
   hiden = true;
+  serverError = '';
   registerForm = new FormGroup({
     name: new FormControl('', [
       Validators.required
@@ -40,7 +39,7 @@ export class RegisterComponent {
     ]),
   } as UserControls, passwordNoMatch);
 
-  
+
   sumbitForm() {
     if (this.registerForm.valid) {
       const url = "http://localhost:3000/user/register";
@@ -50,14 +49,25 @@ export class RegisterComponent {
         .set('email', this.registerForm.controls.email.value)
         .set('password', this.registerForm.controls.password.value);
       const options = {
+        //observe: 'response' as const,
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
       }
-      this.http.post(url, body, options).subscribe(() => {
-        this.router.navigateByUrl('/login');
+      this.http.post(url, body, options).subscribe({
+        next: (res) => {
+          this.serverError ="";
+          this.router.navigateByUrl('/login');
+        },
+        error: (err: HttpErrorResponse) => {
+          if (err.status === 403) {
+            this.serverError = "User already exists.";
+          } else if (err.status === 500) {
+            this.serverError = "Error connection to database.";
+          }
+        }
       });
     } else {
-      console.log("Form not valid!");
+      this.serverError = "Form not valid!";
     }
   }
 
@@ -72,9 +82,9 @@ export class RegisterComponent {
   }
 }
 interface User {
-  name: string;
-  surname: string;
-  email: string;
+  name: string,
+  surname: string,
+  email: string,
   password: string,
   passwordConfirm: string
 }
