@@ -1,0 +1,97 @@
+.flex-months {
+    height: auto;
+    padding: 0.5em;
+    margin: 1em;
+    overflow: hidden;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5em;
+}
+
+.item-month {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    background-color: lightblue;
+    border: 1px solid blue;
+}
+
+.grid-days {
+    font-size: 1.5em;
+    padding: 0.5em;
+
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.2em;
+}
+
+.item-month-fullscreen {
+    width: 80vw;
+    height: 80vh;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    background-color: lightblue;
+    border: 1px solid blue;
+}
+
+.grid-days-in-month {
+    font-size: 1.5em;
+    padding: 0.5em;
+    width: 100%;
+    height: 100%;
+
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: auto 1fr 1fr 1fr 1fr 1fr 1fr;
+    row-gap: 0.2em;
+}
+
+.grid-item-day {
+    position: relative;
+    padding: 1px;
+    background-color: cyan;
+    border: 1px solid blue;
+}
+
+.grid-item-day:hover:not(.bold, .blank, .blank-month) {
+    background-color: darkcyan;
+}
+
+.dayName {
+    background-color: darkcyan;
+    height: fit-content;
+}
+
+.blank {
+    background-color: lightcyan;
+}
+
+.today {
+    background-color: blue;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    width: 80%;
+}
+
+.num{
+    position:absolute;
+    top: 0;
+    right: 0;
+}
+.day{
+    background-color: white;
+}
+.blank-month{
+    background-color: lightgray;
+}

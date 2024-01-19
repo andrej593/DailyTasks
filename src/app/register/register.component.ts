@@ -16,6 +16,16 @@ export class RegisterComponent {
   http = inject(HttpClient);
   router = inject(Router);
 
+  passwordMatch = ''
+
+  formErrors:IUser = {
+    name: '',
+    surname: '',
+    email: '',
+    password: '',
+    passwordConfirm: '',
+  }
+
   hiden = true;
   serverError = '';
   registerForm = new FormGroup({
@@ -41,7 +51,13 @@ export class RegisterComponent {
 
 
   sumbitForm() {
+    this.passwordMatch = this.getFormError();
+    for (const key in this.formErrors) {
+      this.formErrors[<keyof IUser>key] = this.getControlErrors(<keyof IUser>key);
+    }
+
     if (this.registerForm.valid) {
+      this.serverError='';
       const url = "http://localhost:3000/user/register";
       const body = new HttpParams()
         .set('name', this.registerForm.controls.name.value)
@@ -55,7 +71,7 @@ export class RegisterComponent {
       }
       this.http.post(url, body, options).subscribe({
         next: (res) => {
-          this.serverError ="";
+          this.serverError = "";
           this.router.navigateByUrl('/login');
         },
         error: (err: HttpErrorResponse) => {
@@ -71,7 +87,7 @@ export class RegisterComponent {
     }
   }
 
-  getControlError(inputName: keyof User) {
+  getControlErrors(inputName: keyof IUser) {
     if (this.registerForm.controls[inputName].hasError('required')) return ErrorMessages['required'];
     if (this.registerForm.controls[inputName].hasError('email')) return ErrorMessages['email'];
     if (this.registerForm.controls[inputName].hasError('pattern')) return ErrorMessages['pattern'];
@@ -81,14 +97,15 @@ export class RegisterComponent {
     return this.registerForm.hasError('passwordNoMatch') ? ErrorMessages['passwordNoMatch'] : '';
   }
 }
-interface User {
+interface IUser {
   name: string,
   surname: string,
   email: string,
   password: string,
   passwordConfirm: string
 }
-type UserControls = { [key in keyof User]: AbstractControl };
+
+type UserControls = { [key in keyof IUser]: AbstractControl };
 
 const ErrorMessages = {
   required: 'You must enter a value.',

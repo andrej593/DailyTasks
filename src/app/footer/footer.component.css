@@ -3,7 +3,7 @@ span{
     align-items: center;
 }
 mat-toolbar{
-    position: fixed;
-    bottom: 0;
+    display: flex;
     justify-content: center;
+    width: 100vw;
 }

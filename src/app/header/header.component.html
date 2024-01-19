@@ -4,8 +4,7 @@
         </div>
 
         <div class="links">
-            <a href="#"><mat-icon>article</mat-icon> list</a>
-
+            <a routerLink="protected/userHome" routerLinkActive="active" *ngIf="authService.isLoggedIn() !== null"><mat-icon>article</mat-icon> list</a>
             <a (click)="logout()" *ngIf="authService.isLoggedIn() !== null"><mat-icon>logout</mat-icon>Logout</a>
 
             <a routerLink="login" routerLinkActive="active" *ngIf="authService.isLoggedIn() === null"><mat-icon>login</mat-icon>Login</a>

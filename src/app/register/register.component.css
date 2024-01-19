@@ -3,13 +3,16 @@
     justify-content: center;
     align-items: center;
 }
-.container{
-    width: 100%;
-}
 mat-card{
     border-radius: 1vw;
-    margin-top: 1rem;
-    width: 50%;     /* TODO make media if so when you have small width its still good*/
+    margin: 1rem;
+    min-width: 30vw;
+}
+form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 mat-card-header, mat-card-footer{
     background-color: lightgray;
@@ -26,5 +29,9 @@ mat-card-footer{
 }
 mat-form-field{
     width: 100%;
+}
+mat-error{
+    white-space:nowrap;
+    overflow:hidden;
 }
 
