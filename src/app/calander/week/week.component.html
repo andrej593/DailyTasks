@@ -1,0 +1,18 @@
+<div class="item-week">
+    <div class="header">
+        <button mat-icon-button (click)="emitState.emit(states.MONTH);"><mat-icon>fullscreen_exit</mat-icon></button>
+        <h1></h1>
+        <div>
+            <button mat-icon-button (click)="emitPrevWeek.emit()"><mat-icon>chevron_left</mat-icon></button>
+            <button mat-icon-button (click)="emitNextWeek.emit()"><mat-icon>chevron_right</mat-icon></button>
+        </div>
+    </div>
+    <div class="grid-week">
+        <div *ngFor="let day of week.days" class="grid-day">
+            <div class="dayName"><h1>{{day.getDate()}}</h1></div>
+            <div *ngFor="let n of arrayOfLength(16);index as i" [ngClass]="{'notInThisMonth':day.notInThisMonth}" class="hour">
+
+            </div>
+        </div>
+    </div>
+</div>

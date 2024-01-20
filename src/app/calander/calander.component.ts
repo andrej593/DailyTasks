@@ -1,45 +1,62 @@
 import { Component } from '@angular/core';
-import { Calander, AMonths } from '../classes/calander/calander';
+import { Calander, AMonths, States, ADays2, Months} from '../calander/calander';
 import { CommonModule } from '@angular/common';
 import { MaterialsModule } from '../material/material.module';
+import { MonthComponent } from './month/month.component';
+import { WeekComponent } from './week/week.component';
 
 @Component({
   selector: 'app-calander',
   standalone: true,
-  imports: [CommonModule, MaterialsModule],
+  imports: [CommonModule, MaterialsModule, MonthComponent, WeekComponent],
   templateUrl: './calander.component.html',
   styleUrl: './calander.component.css'
 })
 
 export class CalanderComponent {
-  states = {
-    YEAR : 0,
-    MONTH : 1,
-    WEEK : 2,
-    DAY : 3
-  }
-  
+  states = States;
+  days = ADays2;
+  calander = new Calander();
+
   state = this.states.YEAR;
   year = new Date().getFullYear();
-  calander = new Calander();
   month = this.calander.year.getMonth("January");
+  week = this.month.weeks[0];
 
-  Days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-
-  nextYear() {
-    this.year = this.year + 1;
-    this.calander = new Calander(this.year);
-  }
   prevYear() {
     this.year = this.year - 1;
     this.calander = new Calander(this.year);
   }
-  nextMonth(){
-    /*let nextMonth= 
-    this.month = */
+  nextYear() {
+    this.year = this.year + 1;
+    this.calander = new Calander(this.year);
   }
-  prevMonth(){
+  prevMonth() {
+    console.log("PrevM");
+    if(this.month.name === "January"){
+      this.year = this.year - 1;
+      this.calander = new Calander(this.year);
+      this.month = this.calander.year.getMonth("December");
+    }else{
+      this.month =this.calander.year.getMonth(AMonths[AMonths.indexOf(this.month.name)-1]);
+    }
 
+  }
+  nextMonth() {
+    console.log("NextM");
+    if(this.month.name === "December"){
+      this.year = this.year + 1;
+      this.calander = new Calander(this.year);
+      this.month = this.calander.year.getMonth("January");
+    }else{
+      this.month =this.calander.year.getMonth(AMonths[AMonths.indexOf(this.month.name)+1]);
+    }
+  }
+  prevWeek(){
+
+  }
+  nextWeek(){
+    
   }
   arrayOfLength(len: number) {
     return new Array(len);
@@ -50,13 +67,8 @@ export class CalanderComponent {
     }
     return '';
   }
-  getMonth(month:any){
+  getMonth(month: any) {
     this.month = this.calander.year.getMonth(month);
-    this.changeState(this.states.MONTH);
-    console.log(this.state);
-    console.log(this.month.logMonth());
-  }
-  changeState(state:number){
-    this.state = state;
+    this.state = this.states.MONTH;
   }
 }

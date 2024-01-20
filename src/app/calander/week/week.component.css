@@ -1,0 +1,45 @@
+:host {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    text-align: center;
+}
+
+.item-week {
+    display: flex;
+    flex-direction: column;
+
+    margin: 2%;
+}
+
+.grid-week {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.grid-day {
+    display: grid;
+    grid-template-rows: repeat(17, 1fr);
+    background-color: cyan;
+    border: 1px solid blue;
+}
+
+.notInThisMonth {
+    background-color: lightcyan;
+}
+
+.hour {
+    background-color: white;
+    border-top: 1px solid blue;
+    border-bottom: 1px solid blue;
+}
+.dayName {
+    background-color: darkcyan;
+    overflow: auto;
+}

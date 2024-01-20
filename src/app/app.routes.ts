@@ -3,7 +3,6 @@ import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './guards/auth/auth.guard';
-import { UserHomeComponent } from './protected/user-home/user-home.component';
 import { CalanderComponent } from './calander/calander.component';
 
 export const routes: Routes = [
@@ -13,7 +12,7 @@ export const routes: Routes = [
     { path: 'calander', component: CalanderComponent },
     {
         path: 'protected/userHome',
-        component: UserHomeComponent,
+        component: HomeComponent,
         canActivate: [AuthGuard],
     },
     { path: '**', component: HomeComponent }

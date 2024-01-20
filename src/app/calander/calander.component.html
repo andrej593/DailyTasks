@@ -9,54 +9,22 @@
     <div class="item-month" *ngFor="let month of calander.year.months">
         <div class="header">
             <h1>{{month.name}}</h1>
-            <button mat-icon-button (click)="getMonth(month.name)"><mat-icon>open_in_full</mat-icon></button>
+            <button mat-icon-button (click)="getMonth(month.name)"><mat-icon>fullscreen</mat-icon></button>
         </div>
         <div class="grid-days">
             <div class="grid-item-day dayName" *ngFor="let n of arrayOfLength(7);index as i">
-                {{Days[i].substring(0,3)}}
+                {{days[i].substring(0,3)}}
             </div>
-            <div class="grid-item-day blank" *ngFor="let n of arrayOfLength(month.blanksStart)">
-                {{' '}}
-            </div>
-
-            <div *ngFor="let day of month.days;index as i" [ngClass]="{'today':(getToday() === (month.name + (i+1)))}"
-                class="grid-item-day">
-                {{i+1}}
-            </div>
-            <div class="grid-item-day blank" *ngFor="let n of arrayOfLength(month.blanksEnd)">
-                {{' '}}
-            </div>
+            <ng-container *ngFor="let week of month.weeks">
+                <div *ngFor="let day of week.days" [ngClass]="{'today':(getToday() === (month.name + day.dayInMonth))}"
+                    [ngClass]="{'notInThisMonth':day.notInThisMonth}" class="grid-item-day">
+                    {{day.dayInMonth}}
+                </div>
+            </ng-container>
         </div>
     </div>
 </div>
-<!-- put in seperate month component for more readable code <month-component *ngIf="state === states.MONTH" [month]={{month}}></month-component>-->
-<div *ngIf="state === states.MONTH">
-    <div class="item-month-fullscreen">
-        <div class="header">
-            <button mat-icon-button (click)="changeState(states.YEAR);"><mat-icon>close_fullscreen</mat-icon></button>
-            <h1>{{month.name}} {{month.year}}</h1>
-            <div>
-                <button mat-icon-button (click)="prevMonth()"><mat-icon>chevron_left</mat-icon></button>
-                <button mat-icon-button (click)="nextMonth()"><mat-icon>chevron_right</mat-icon></button>
-            </div>
-        </div>
-        <div class="grid-days-in-month">
-            <div class="grid-item-day dayName" *ngFor="let n of arrayOfLength(7);index as i">
-                {{Days[i].substring(0,3)}}
-            </div>
-            <div class="grid-item-day blank-month" *ngFor="let n of arrayOfLength(month.blanksStart)">
-                {{' '}}
-            </div>
-
-            <div *ngFor="let day of month.days;index as i" 
-            [ngClass]="{'today':(getToday() === (month.name + (i+1))) }" 
-            class="grid-item-day day">
-                <p class="num">{{i+1}}</p>
-                {{day.getDate()}}
-            </div>
-            <div class="grid-item-day blank-month" *ngFor="let n of arrayOfLength(month.blanksEnd)">
-                {{' '}}
-            </div>
-        </div>
-    </div>
-</div>
+<app-month *ngIf="state === states.MONTH" (emitState)="state=$event" (emitWeek)="week = $event;state=states.WEEK"
+    (emitPrevMonth)="prevMonth()" (emitNextMonth)="nextMonth()" [month]="month" [today]="getToday()"></app-month>
+<app-week *ngIf="state === states.WEEK" (emitState)="state=$event" (emitPrevMonth)="prevWeek()"
+    (emitNextMonth)="nextWeek()" [week]="week"></app-week>
