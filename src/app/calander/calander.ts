@@ -49,7 +49,7 @@ class Day {
         this.year = year;
     }
     getDate() {
-        return `${this.day}\n${this.dayInMonth}.${AMonths.indexOf(this.month)+1}.${this.year}`;
+        return `${this.day} ${this.dayInMonth}.${AMonths.indexOf(this.month)+1}.${this.year}`;
     }
 }
 

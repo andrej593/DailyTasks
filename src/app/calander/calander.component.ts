@@ -53,10 +53,38 @@ export class CalanderComponent {
     }
   }
   prevWeek(){
-
+    //first week of month
+    if(this.month.weeks[0] === this.week){
+      //first month for year
+      if(this.month.name === "January"){
+        this.year = this.year - 1;
+        this.calander = new Calander(this.year);
+        this.month = this.calander.year.getMonth("December");
+        this.week = this.month.weeks[this.month.weeks.length-1];
+      }else{
+        this.month = this.calander.year.getMonth(AMonths[AMonths.indexOf(this.month.name)-1]);
+        this.week = this.month.weeks[this.month.weeks.length-1];
+      }
+    }else{
+      this.week = this.month.weeks[this.month.weeks.indexOf(this.week)-1];
+    }
   }
   nextWeek(){
-    
+        //last week of month
+        if(this.month.weeks[this.month.weeks.length-1] === this.week){
+          //first month for year
+          if(this.month.name === "December"){
+            this.year = this.year + 1;
+            this.calander = new Calander(this.year);
+            this.month = this.calander.year.getMonth("January");
+            this.week = this.month.weeks[0];
+          }else{
+            this.month = this.calander.year.getMonth(AMonths[AMonths.indexOf(this.month.name)+1]);
+            this.week = this.month.weeks[0];
+          }
+        }else{
+          this.week = this.month.weeks[this.month.weeks.indexOf(this.week)+1];
+        }
   }
   arrayOfLength(len: number) {
     return new Array(len);

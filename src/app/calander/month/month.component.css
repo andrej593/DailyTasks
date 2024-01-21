@@ -1,19 +1,18 @@
 :host{
     flex:1;
     display: flex;
-    width:100%;  
 }
 /*SHOUDL BE GOOD*/
 .item-month {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
     /*overflow: auto;*/
 
     background-color: lightblue;
     border: 1px solid blue;
-    margin: 2%;
+    padding: 0.5em;
+    margin: 1em;
 }
 /*SHOUDL BE GOOD*/
 .header {
@@ -24,13 +23,12 @@
 .grid-days {
     flex:1;
     font-size: 1.5em;
-    width: 80%;
     padding: 1em;
     /*overflow: auto;*/
 
     display: grid;
-    grid-template-columns: auto repeat(7, 1fr);
-    grid-template-rows: auto 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: auto repeat(7, 12vw);
+    grid-template-rows: auto repeat(6, 12vh);
     row-gap: 0.2em;
 }
 .grid-item-day {
@@ -45,6 +43,7 @@
 }
 .viewWeek{
     background-color: darkcyan;
+    border: 1px solid blue;
     display: flex;
     align-items: center;
 }
@@ -57,8 +56,9 @@
 }
 .num{
     position:absolute;
-    top: 0;
+    bottom: 0;
     right: 0;
+    line-height: 0;
 }
 .notInThisMonth{
     background-color: lightcyan;

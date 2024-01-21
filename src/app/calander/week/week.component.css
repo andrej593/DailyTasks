@@ -14,24 +14,23 @@
 .item-week {
     display: flex;
     flex-direction: column;
-
     margin: 2%;
 }
 
 .grid-week {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
-}
+    grid-template-columns: repeat(7, 12vw);
 
-.grid-day {
-    display: grid;
-    grid-template-rows: repeat(17, 1fr);
     background-color: cyan;
     border: 1px solid blue;
 }
 
-.notInThisMonth {
-    background-color: lightcyan;
+.grid-day {
+    display: grid;
+    grid-template-rows: repeat(17, 4vh);
+
+    background-color: cyan;
+    border: 1px solid blue;
 }
 
 .hour {
@@ -39,7 +38,12 @@
     border-top: 1px solid blue;
     border-bottom: 1px solid blue;
 }
+
 .dayName {
     background-color: darkcyan;
-    overflow: auto;
+    overflow: hidden;
+}
+
+.notInThisMonth {
+    background-color: lightcyan;
 }

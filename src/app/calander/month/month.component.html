@@ -17,7 +17,7 @@
             <div *ngFor="let day of week.days" [ngClass]="{'today':(today === (month.name + day.dayInMonth)) }"
                 [ngClass]="{'notInThisMonth':day.notInThisMonth}" class="grid-item-day">
                 <p class="num">{{day.dayInMonth}}</p>
-                {{day.getDate()}}
+                
             </div>
         </ng-container>
     </div>

@@ -26,5 +26,5 @@
 </div>
 <app-month *ngIf="state === states.MONTH" (emitState)="state=$event" (emitWeek)="week = $event;state=states.WEEK"
     (emitPrevMonth)="prevMonth()" (emitNextMonth)="nextMonth()" [month]="month" [today]="getToday()"></app-month>
-<app-week *ngIf="state === states.WEEK" (emitState)="state=$event" (emitPrevMonth)="prevWeek()"
-    (emitNextMonth)="nextWeek()" [week]="week"></app-week>
+<app-week *ngIf="state === states.WEEK" (emitState)="state=$event" (emitPrevWeek)="prevWeek()"
+    (emitNextWeek)="nextWeek()" [week]="week"></app-week>

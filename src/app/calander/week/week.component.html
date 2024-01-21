@@ -8,11 +8,16 @@
         </div>
     </div>
     <div class="grid-week">
-        <div *ngFor="let day of week.days" class="grid-day">
-            <div class="dayName"><h1>{{day.getDate()}}</h1></div>
-            <div *ngFor="let n of arrayOfLength(16);index as i" [ngClass]="{'notInThisMonth':day.notInThisMonth}" class="hour">
+        <ng-container *ngFor="let day of week.days">
+            <div  class="grid-day">
+                <div class="dayName">
+                    <p>{{day.getDate()}}</p>
+                </div>
+                <div *ngFor="let n of arrayOfLength(16);index as i" [ngClass]="{'notInThisMonth':day.notInThisMonth}"
+                    class="hour">
 
+                </div>
             </div>
-        </div>
+        </ng-container>
     </div>
 </div>
