@@ -1,0 +1,37 @@
+<div class="header">
+    <button mat-icon-button (click)="stateChanged.emit(states.WEEK);"><mat-icon>fullscreen_exit</mat-icon></button>
+    <h1>{{calander.currentDay.getDate()}}<span *ngIf="calander.getToday() == calander.currentDay.getDate()">
+            Today</span></h1>
+    <div>
+        <button mat-icon-button (click)="calander.prevDay()"><mat-icon>chevron_left</mat-icon></button>
+        <button mat-icon-button (click)="calander.nextDay()"><mat-icon>chevron_right</mat-icon></button>
+    </div>
+</div>
+<div class="flex-day">
+    <div class="grid-item-day">
+        <div class="dayName">
+            <p>{{calander.currentDay.getDate()}}</p>
+        </div>
+        <div *ngFor="let n of arrayOfLength(16);index as i" class="hour">
+
+        </div>
+    </div>
+    <div class="tasks">
+        <div class="dayName">
+            <p>DAILY</p>
+        </div>
+        <!-- Task Component -->
+    </div>
+    <div class="tasks">
+        <div class="dayName">
+            <p>REGULAR</p>
+        </div>
+        <!-- Task Component -->
+    </div>
+    <div class="tasks">
+        <div class="dayName">
+            <p>SPECIAL</p>
+        </div>
+        <!-- Task Component -->
+    </div>
+</div>

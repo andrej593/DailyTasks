@@ -1,23 +1,20 @@
-<div class="item-week">
-    <div class="header">
-        <button mat-icon-button (click)="emitState.emit(states.MONTH);"><mat-icon>fullscreen_exit</mat-icon></button>
-        <h1></h1>
-        <div>
-            <button mat-icon-button (click)="emitPrevWeek.emit()"><mat-icon>chevron_left</mat-icon></button>
-            <button mat-icon-button (click)="emitNextWeek.emit()"><mat-icon>chevron_right</mat-icon></button>
-        </div>
+<div class="header">
+    <button mat-icon-button (click)="stateChanged.emit(states.MONTH);"><mat-icon>fullscreen_exit</mat-icon></button>
+    <h1>Week {{calander.currentWeek.fromTo()}}</h1>
+    <div>
+        <button mat-icon-button (click)="calander.prevWeek()"><mat-icon>chevron_left</mat-icon></button>
+        <button mat-icon-button (click)="calander.nextWeek()"><mat-icon>chevron_right</mat-icon></button>
     </div>
-    <div class="grid-week">
-        <ng-container *ngFor="let day of week.days">
-            <div  class="grid-day">
-                <div class="dayName">
-                    <p>{{day.getDate()}}</p>
-                </div>
-                <div *ngFor="let n of arrayOfLength(16);index as i" [ngClass]="{'notInThisMonth':day.notInThisMonth}"
-                    class="hour">
-
-                </div>
+</div>
+<div class="grid-week">
+    <ng-container *ngFor="let day of calander.currentWeek.days">
+        <div class="grid-item-day" [ngClass]="{'today':calander.getToday() == day.getDate()}">
+            <div class="dayName" (click)="calander.currentDay = day;stateChanged.emit(states.DAY);">
+                <p>{{day.getDate()}}</p>
             </div>
-        </ng-container>
-    </div>
+            <div *ngFor="let n of arrayOfLength(16);index as i" class="hour">
+
+            </div>
+        </div>
+    </ng-container>
 </div>

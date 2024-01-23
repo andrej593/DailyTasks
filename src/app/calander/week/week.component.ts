@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, Output, EventEmitter } from '@angular/core'
-import { Week, States, ADays2 } from '../calander';
+import { Component, Input ,Output, EventEmitter} from '@angular/core'
+import { States, ADaysM, AMonths, Calander} from '../calander';
 import { MaterialsModule } from '../../material/material.module';
 
 @Component({
@@ -12,12 +12,12 @@ import { MaterialsModule } from '../../material/material.module';
 })
 export class WeekComponent {
   states = States;
-  days = ADays2;
+  days = ADaysM;
+  months = AMonths;
 
-  @Output() emitState = new EventEmitter<number>();
-  @Output() emitNextWeek = new EventEmitter();
-  @Output() emitPrevWeek = new EventEmitter();
-  @Input() week: Week;
+  @Input() calander: Calander;
+  @Input() state: number;
+  @Output() stateChanged = new EventEmitter<number>();
 
   arrayOfLength(len: number) {
     return new Array(len);

@@ -12,7 +12,7 @@ const material=[
   MatFormFieldModule,
   MatInputModule,
   MatCardModule,
-  MatButtonModule
+  MatButtonModule,
 ];
 
 @NgModule({

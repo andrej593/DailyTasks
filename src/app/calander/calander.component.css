@@ -1,25 +1,19 @@
-:host {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.flex-months {
-    padding: 0.5em;
+.scope-buttons {
+    position: relative;
+    top: 0;
     margin: 1em;
-    gap: 0.5em;
+}
 
+.scope-buttons button {
+    margin: 0.5em;
+}
+
+.flex-months {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
 }
-.item-month {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 
-    background-color: lightblue;
-    border: 1px solid blue;
-}
 .grid-days {
     font-size: 1.5em;
     padding: 0.5em;
@@ -28,28 +22,51 @@
     grid-template-columns: repeat(7, 1fr);
     gap: 0.2em;
 }
-.grid-item-day {
-    position: relative;
-    padding: 1px;
-    background-color: cyan;
+/* APPLIES TO CHILD COMPONENTS TOO! */
+:host::ng-deep.header {
+    display: flex;
+    justify-content:space-around;
+    align-items: baseline;
+    width: 100%;
+}
+
+:host::ng-deep.item-month {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    background-color: lightblue;
+    border: 1px solid blue;
+    margin: 1em;
+}
+
+:host::ng-deep.grid-item-day {
+    background-color: white;
     border: 1px solid blue;
 }
-.grid-item-day:hover:not(.dayName) {
+
+:host::ng-deep.grid-item-day:hover:not(.viewWeek, .dayName) {
     background-color: darkcyan;
 }
-.dayName {
+
+:host::ng-deep.dayName {
     background-color: darkcyan;
-    height: fit-content;
 }
-.notInThisMonth {
+
+:host::ng-deep.notInThisMonth {
     background-color: lightcyan;
 }
-.today {
-    background-color: blue;
+
+:host::ng-deep.today {
+    background-color: cyan;
 }
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    width: 80%;
+
+:host::ng-deep.hour {
+    background-color: white;
+    border-top: 1px solid blue;
+    border-bottom: 1px solid blue;
+}
+
+:host::ng-deep.today .hour {
+    background-color: cyan;
 }

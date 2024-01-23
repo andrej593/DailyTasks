@@ -1,3 +1,4 @@
+const ADaysM = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 const States = {
     YEAR: 0,
     MONTH: 1,
@@ -33,23 +34,22 @@ const Days = {
 }
 type TDay = keyof typeof Days;
 const ADays = Object.keys(Days) as TDay[];
-const ADays2 = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
 class Day {
-    notInThisMonth: boolean;
-    day: TDay;
+    notInThisMonth: boolean;    //for when week or month does not start on monday or end on sunday
+    dayName: TDay;
     dayInMonth: number;
     month: TMonth;
     year: number;
     constructor(day: TDay, dayInMonth: number, month: TMonth, year: number, blank: boolean) {
         this.notInThisMonth = blank;
-        this.day = day;
+        this.dayName = day;
         this.dayInMonth = dayInMonth;
         this.month = month;
         this.year = year;
     }
     getDate() {
-        return `${this.day} ${this.dayInMonth}.${AMonths.indexOf(this.month)+1}.${this.year}`;
+        return `${this.dayInMonth}.${AMonths.indexOf(this.month) + 1}.${this.year}`;
     }
 }
 
@@ -58,37 +58,48 @@ class Week {
     constructor() {
         this.days = [] as Day[];
     }
+    getDay(dayInMonth: number) {
+        for (let i = 0; i < this.days.length; i++) {
+            if (this.days[i].dayInMonth == dayInMonth) return this.days[i];
+        }
+        return this.days[0];    //should never happen
+    }
+    fromTo(){
+        return 'from '+this.days[0].getDate()+' to '+this.days[6].getDate();
+    }
 }
 
 class Month {
     year: number;
-    name: TMonth;
+    monthName: TMonth;
     weeks: Week[];
+
+    firstDay: Day;  //need this because of blank days
     constructor(month: TMonth, firstDay: number, year: number) {
+        this.firstDay = new Day(ADays[firstDay], 1, month, year, false);
         this.year = year;
-        this.name = month;
+        this.monthName = month;
         this.weeks = [] as Week[];
         let tmpWeek = new Week();
         //if not start on monday
         if ((firstDay) !== 1) {
             let prevMonth: TMonth;   //previus Month
-            let tyear = year;       //previous Year if January
-            let tstart;             //dayInMonth start from prev Month
-            if (this.name !== "January") {
-                prevMonth = AMonths[AMonths.indexOf(this.name) - 1];    //only go 1 month back
+            let startYear = year;       //previous Year if January
+            if (this.monthName !== "January") {
+                prevMonth = AMonths[AMonths.indexOf(this.monthName) - 1];    //only go 1 month back
             } else {
                 prevMonth = "December";   //go 1 year back,last month
-                tyear--;
+                startYear--;
             }
-            tstart = Months[prevMonth] - ((firstDay + 6) % 7);  //number of days in prev month - where we start counting blank days at
+            let start = Months[prevMonth] - ((firstDay + 6) % 7) + 1;  //number of days in prev month - where we start counting blank days at
             //fill blank days in week
-            for (let j = 0; j < ((firstDay + 6) % 7); j++) {
-                tmpWeek.days.push(new Day(ADays[j + 1], tstart + j + 1, prevMonth, tyear, true));
+            for (let i = 0; i < ((firstDay + 6) % 7); i++) {
+                tmpWeek.days.push(new Day(ADays[i + 1], start++, prevMonth, startYear, true));
             }
         }
-        for (let i = 0; i < Months[this.name]; i++) {
+        for (let i = 0; i < Months[this.monthName]; i++) {
             tmpWeek.days.push(new Day(ADays[(firstDay) % 7], i + 1, month, year, false));
-            //week full
+            //week full/is sunday
             if ((firstDay % 7) === 0) {
                 this.weeks.push(tmpWeek);
                 tmpWeek = new Week();
@@ -96,31 +107,36 @@ class Month {
             firstDay++;
         }
         //last week not full yet
-        if (((firstDay - 1) % 7) !== 0) {
+        if (((firstDay - 1) % 7) !== 0) {   //didnt end on sunday
             let nextMonth: TMonth;   //next Month
-            let tyear = year;       //next Year if December
-            if (this.name !== "December") {
-                nextMonth = AMonths[AMonths.indexOf(this.name) + 1];    //only go 1 month forward
+            let startYear = year;       //next Year if December
+            if (this.monthName !== "December") {
+                nextMonth = AMonths[AMonths.indexOf(this.monthName) + 1];    //only go 1 month forward
             } else {
                 nextMonth = "January";   //go 1 year forward,first month
-                tyear++;
+                startYear++;
             }
-            //fill blank days in week
-            for (let j = 0; j < ((7 - (firstDay - 1) % 7) % 7); j++) {
-                tmpWeek.days.push(new Day(ADays[(firstDay + j) % 7], j + 1, nextMonth, tyear, true));
+            //fill blank days in last week
+            for (let i = 0; i < ((7 - (firstDay - 1) % 7) % 7); i++) {
+                tmpWeek.days.push(new Day(ADays[(firstDay + i) % 7], i + 1, nextMonth, startYear, true));
             }
             this.weeks.push(tmpWeek);
         }
     }
-    logMonth() {
-        console.log(this.name + "\n");
-        for (var week of this.weeks) {
-            for (let day of week.days) {
-                console.log(day.getDate());
+    getWeek(dayInMonth: number) {
+        for (let i = 0; i < this.weeks.length; i++) {
+            for (let j = 0; j < this.weeks[i].days.length; j++) {
+                if (this.weeks[i].days[j].dayInMonth == dayInMonth) {
+                    return this.weeks[i];
+                }
             }
         }
-        return "Month " + this.name + " End\n";
+        return this.weeks[0];   //should never come to this
     }
+}
+
+function isLeapYear(year: number) {
+    return ((year % 400 === 0) ? true : ((year % 100 === 0) ? false : ((year % 4 === 0) ? true : false))) ? true : false;
 }
 
 class Year {
@@ -130,45 +146,130 @@ class Year {
     constructor(year: number) {
         this.yearNumber = year;
         //leapYear
-        this.leapYear = ((this.yearNumber % 400 === 0) ? true : ((this.yearNumber % 100 === 0) ? false : ((this.yearNumber % 4 === 0) ? true : false))) ? true : false;
+        this.leapYear = isLeapYear(year);
         Months["February"] = this.leapYear ? 29 : 28;
 
-        let firstDay = new Date(year, 0, 1).getDay();
+        let firstDay = new Date(year, 0, 1).getDay();   //to get which day of the week to start on
         this.months = [] as Month[];
         for (let i = 0; i < 12; i++) {
             this.months.push(new Month(AMonths[i], firstDay, year));
-            firstDay = (firstDay + Months[AMonths[i]]) % 7;
+            firstDay = (firstDay + Months[AMonths[i]]) % 7; //calculate what day of the week is for next month
         }
     }
-    getMonth(month: TMonth) {
-        for (let monthObj of this.months)
-            if (monthObj.name === month) {
+    getMonth(month: number) {
+        for (let monthObj of this.months) {
+            if (monthObj.monthName === AMonths[month]) {
                 return monthObj;
             }
-        return new Month("January", 1, 1);    //dont like this code   
-    }
-    logYear() {
-        console.log(this.yearNumber + "\n");
-        console.log(this.leapYear + "\n");
-        for (var month of this.months) {
-            console.log("Month:" + month.logMonth() + 'LOGEND\n');
         }
+        return new Month("January", 1, 2024);    //dont like this code
     }
 }
 
 class Calander {
-    year: Year;
-    timeNow: Date;
+    currentYear: Year;
+    currentMonth: Month;
+    currentWeek: Week;
+    currentDay: Day;
+    today: Date;
     constructor(year?: number) {
-        if (year !== undefined) {
-            this.year = new Year(year);
-        } else {
-            this.year = new Year(new Date().getFullYear());
+        this.today = new Date();
+        if (year !== undefined) {   // first day first week first month of chosen year
+            this.currentYear = new Year(year);
+            this.currentMonth = this.currentYear.months[0];
+            this.currentWeek = this.currentMonth.weeks[0];
+            this.currentDay = this.currentWeek.days[0];
+        } else {    //default sets for Date now 
+            this.currentYear = new Year(this.today.getFullYear());
+            this.currentMonth = this.currentYear.getMonth(this.today.getMonth());
+            this.currentWeek = this.currentMonth.getWeek(this.today.getDate());
+            this.currentDay = this.currentWeek.getDay(this.today.getDate());
         }
-
-        this.timeNow = new Date();
+    }
+    prevYear() {
+        this.currentYear = new Year(this.currentYear.yearNumber - 1);
+        this.currentMonth = this.currentYear.months[this.currentYear.months.length - 1]; //change month to match year
+        this.currentWeek = this.currentMonth.weeks[this.currentMonth.weeks.length - 1];  //change week to match month
+        this.currentDay = this.currentWeek.days[6];                                      //change day to match week
+    }
+    nextYear() {
+        this.currentYear = new Year(this.currentYear.yearNumber + 1);
+        this.currentMonth = this.currentYear.months[0]; //change month to match year
+        this.currentWeek = this.currentMonth.weeks[0];  //change week to match month
+        this.currentDay = this.currentWeek.days[0];     //change day to match week
+    }
+    prevMonth() {
+        if (this.currentMonth.monthName === "January") {
+            this.prevYear();
+            this.currentMonth = this.currentYear.getMonth(11);
+        } else {
+            this.currentMonth = this.currentYear.getMonth(AMonths.indexOf(this.currentMonth.monthName) - 1);
+        }
+        this.currentWeek = this.currentMonth.weeks[this.currentMonth.weeks.length - 1];  //change week to match month
+        this.currentDay = this.currentWeek.days[6];                                      //change day to match week
+    }
+    nextMonth() {
+        if (this.currentMonth.monthName === "December") {
+            this.nextYear();
+            this.currentMonth = this.currentYear.getMonth(0);
+        } else {
+            this.currentMonth = this.currentYear.getMonth(AMonths.indexOf(this.currentMonth.monthName) + 1);
+        }
+        this.currentWeek = this.currentMonth.weeks[0];  //change week to match month
+        this.currentDay = this.currentWeek.days[0];     //change day to match week
+    }
+    prevWeek() {
+        if (this.currentMonth.weeks[0] === this.currentWeek) {
+            this.prevMonth();
+            this.currentWeek = this.currentMonth.weeks[this.currentMonth.weeks.length - 1];
+        } else {
+            this.currentWeek = this.currentMonth.weeks[this.currentMonth.weeks.indexOf(this.currentWeek) - 1];
+        }
+        this.currentDay = this.currentWeek.days[6]; //change day to match week
+    }
+    nextWeek() {
+        if (this.currentMonth.weeks[this.currentMonth.weeks.length - 1] === this.currentWeek) {
+            this.nextMonth();
+            this.currentWeek = this.currentMonth.weeks[0];
+        } else {
+            this.currentWeek = this.currentMonth.weeks[this.currentMonth.weeks.indexOf(this.currentWeek) + 1];
+        }
+        this.currentDay = this.currentWeek.days[0]; //change day to match week
+    }
+    prevDay() {
+        if (this.currentWeek.days[0] === this.currentDay) {
+            this.prevWeek();
+            if (this.currentDay.notInThisMonth) this.prevWeek();
+            this.currentDay = this.currentWeek.days[6];
+        } else {
+            this.currentDay = this.currentWeek.days[this.currentWeek.days.indexOf(this.currentDay) - 1];
+        }
+    }
+    nextDay() {
+        if (this.currentWeek.days[6] == this.currentDay) {
+            this.nextWeek();
+            if (this.currentDay.notInThisMonth) this.nextWeek();
+            this.currentDay = this.currentWeek.days[0];
+        } else {
+            this.currentDay = this.currentWeek.days[this.currentWeek.days.indexOf(this.currentDay) + 1];
+        }
+    }
+    getToday() {
+        return this.today.getDate() + "." + (this.today.getMonth() + 1) + "." + this.today.getFullYear();
+    }
+    setMonth(month:Month){
+        this.currentMonth = month;
+        this.currentWeek = this.currentMonth.weeks[0];
+        this.currentDay = this.currentWeek.days[0];
+    }
+    setWeek(week: Week) {
+        this.currentWeek = week;
+        this.currentDay = this.currentWeek.days[0];
+    }
+    setDay(day: Day) {
+        this.currentDay = day;
     }
 }
 
-export { Calander, States, ADays, ADays2, AMonths, Month, Months, Week }
+export { Calander, Month, Week, Day, AMonths, ADaysM, States }
 

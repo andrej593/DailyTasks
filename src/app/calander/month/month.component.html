@@ -1,10 +1,10 @@
 <div class="item-month">
     <div class="header">
-        <button mat-icon-button (click)="emitState.emit(states.YEAR);"><mat-icon>fullscreen_exit</mat-icon></button>
-        <h1>{{month.name}} {{month.year}}</h1>
+        <button mat-icon-button (click)="stateChanged.emit(states.YEAR);"><mat-icon>fullscreen_exit</mat-icon></button>
+        <h1>{{calander.currentMonth.monthName}} {{calander.currentYear.yearNumber}}</h1>
         <div>
-            <button mat-icon-button (click)="emitPrevMonth.emit()"><mat-icon>chevron_left</mat-icon></button>
-            <button mat-icon-button (click)="emitNextMonth.emit()"><mat-icon>chevron_right</mat-icon></button>
+            <button mat-icon-button (click)="calander.nextMonth()"><mat-icon>chevron_left</mat-icon></button>
+            <button mat-icon-button (click)="calander.prevMonth()"><mat-icon>chevron_right</mat-icon></button>
         </div>
     </div>
     <div class="grid-days">
@@ -12,12 +12,14 @@
         <div class="grid-item-day dayName" *ngFor="let n of arrayOfLength(7);index as i">
             {{days[i].substring(0,3)}}
         </div>
-        <ng-container *ngFor="let week of month.weeks">
-            <div class="viewWeek" (click)="emitWeek.emit(week)"><button mat-icon-button><mat-icon>visibility</mat-icon></button></div>
-            <div *ngFor="let day of week.days" [ngClass]="{'today':(today === (month.name + day.dayInMonth)) }"
-                [ngClass]="{'notInThisMonth':day.notInThisMonth}" class="grid-item-day">
+        <ng-container *ngFor="let week of calander.currentMonth.weeks">
+            <div class="viewWeek" (click)="calander.setWeek(week);stateChanged.emit(states.WEEK);"><button
+                    mat-icon-button><mat-icon>visibility</mat-icon></button></div>
+            <div *ngFor="let day of week.days"
+                [ngClass]="{'today':(calander.getToday() === day.getDate()), 'notInThisMonth':day.notInThisMonth }"
+                class="grid-item-day" (click)="calander.currentWeek=week;calander.currentDay=day;stateChanged.emit(states.DAY);">
                 <p class="num">{{day.dayInMonth}}</p>
-                
+
             </div>
         </ng-container>
     </div>

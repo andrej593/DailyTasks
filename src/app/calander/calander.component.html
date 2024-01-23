@@ -1,30 +1,37 @@
+<div class="scope-buttons">
+    <button mat-raised-button color="primary" (click)="state=states.YEAR">YEAR</button>
+    <button mat-raised-button color="primary" (click)="state=states.MONTH">MONTH</button>
+    <button mat-raised-button color="primary" (click)="state=states.WEEK">WEEK</button>
+    <button mat-raised-button color="primary" (click)="state=states.DAY">DAY</button>
+</div>
 <div class="flex-months" *ngIf="state === states.YEAR">
     <div class="header">
-        <h1>Year {{calander.year.yearNumber}}</h1>
+        <h1>Year {{calander.currentYear.yearNumber}}</h1>
         <div>
-            <button mat-icon-button (click)="prevYear()"><mat-icon>chevron_left</mat-icon></button>
-            <button mat-icon-button (click)="nextYear()"><mat-icon>chevron_right</mat-icon></button>
+            <button mat-icon-button (click)="calander.prevYear()"><mat-icon>chevron_left</mat-icon></button>
+            <button mat-icon-button (click)="calander.nextYear()"><mat-icon>chevron_right</mat-icon></button>
         </div>
     </div>
-    <div class="item-month" *ngFor="let month of calander.year.months">
+    <div class="item-month" *ngFor="let month of calander.currentYear.months">
         <div class="header">
-            <h1>{{month.name}}</h1>
-            <button mat-icon-button (click)="getMonth(month.name)"><mat-icon>fullscreen</mat-icon></button>
+            <h1>{{month.monthName}}</h1>
+            <button mat-icon-button (click)="calander.setMonth(month);state = states.MONTH"><mat-icon>fullscreen</mat-icon></button>
         </div>
         <div class="grid-days">
             <div class="grid-item-day dayName" *ngFor="let n of arrayOfLength(7);index as i">
                 {{days[i].substring(0,3)}}
             </div>
             <ng-container *ngFor="let week of month.weeks">
-                <div *ngFor="let day of week.days" [ngClass]="{'today':(getToday() === (month.name + day.dayInMonth))}"
-                    [ngClass]="{'notInThisMonth':day.notInThisMonth}" class="grid-item-day">
+                <div *ngFor="let day of week.days"
+                    [ngClass]="{'today': isToday(day.getDate()),'notInThisMonth':day.notInThisMonth}"
+                    class="grid-item-day"
+                    (click)="calander.currentMonth=month;calander.currentWeek=week;calander.currentDay=day;state=states.DAY;">
                     {{day.dayInMonth}}
                 </div>
             </ng-container>
         </div>
     </div>
 </div>
-<app-month *ngIf="state === states.MONTH" (emitState)="state=$event" (emitWeek)="week = $event;state=states.WEEK"
-    (emitPrevMonth)="prevMonth()" (emitNextMonth)="nextMonth()" [month]="month" [today]="getToday()"></app-month>
-<app-week *ngIf="state === states.WEEK" (emitState)="state=$event" (emitPrevWeek)="prevWeek()"
-    (emitNextWeek)="nextWeek()" [week]="week"></app-week>
+<app-month *ngIf="state === states.MONTH" [state]="state" [calander]="calander" (stateChanged)="state=$event"></app-month>
+<app-week *ngIf="state === states.WEEK" [state]="state" [calander]="calander" (stateChanged)="state=$event"></app-week>
+<app-day *ngIf="state === states.DAY" [state]="state" [calander]="calander" (stateChanged)="state=$event"></app-day>

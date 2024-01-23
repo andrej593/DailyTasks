@@ -6,13 +6,12 @@ import { AuthGuard } from './guards/auth/auth.guard';
 import { CalanderComponent } from './calander/calander.component';
 
 export const routes: Routes = [
-    { path: 'register', component: RegisterComponent },
-    { path: 'login', component: LoginComponent },
-    { path: '', component: HomeComponent },
-    { path: 'calander', component: CalanderComponent },
+    { path: 'register', component: RegisterComponent }, //TODO if logged in redirect to userHome
+    { path: 'login', component: LoginComponent },       //TODO if logged in redirect to userHome
+    { path: '', component: HomeComponent },             //TODO if logged in redirect to userHome
     {
-        path: 'protected/userHome',
-        component: HomeComponent,
+        path: 'protected/calander',
+        component: CalanderComponent,
         canActivate: [AuthGuard],
     },
     { path: '**', component: HomeComponent }

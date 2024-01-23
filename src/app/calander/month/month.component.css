@@ -1,45 +1,10 @@
-:host{
-    flex:1;
-    display: flex;
-}
-/*SHOUDL BE GOOD*/
-.item-month {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    /*overflow: auto;*/
-
-    background-color: lightblue;
-    border: 1px solid blue;
-    padding: 0.5em;
-    margin: 1em;
-}
-/*SHOUDL BE GOOD*/
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-}
 .grid-days {
-    flex:1;
     font-size: 1.5em;
     padding: 1em;
-    /*overflow: auto;*/
 
     display: grid;
     grid-template-columns: auto repeat(7, 12vw);
     grid-template-rows: auto repeat(6, 12vh);
-    row-gap: 0.2em;
-}
-.grid-item-day {
-    position: relative;
-    padding: 1px;
-    background-color: white;
-    border: 1px solid blue;
-    overflow:hidden;
-}
-.grid-item-day:hover:not(.viewWeek,.dayName) {
-    background-color: darkcyan;
 }
 .viewWeek{
     background-color: darkcyan;
@@ -50,16 +15,9 @@
 .viewWeek:hover{
     background-color: darkgreen;
 }
-.dayName {
-    background-color: darkcyan;
-    height: fit-content;
-}
 .num{
     position:absolute;
     bottom: 0;
     right: 0;
     line-height: 0;
-}
-.notInThisMonth{
-    background-color: lightcyan;
 }

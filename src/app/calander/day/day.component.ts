@@ -1,16 +1,16 @@
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Component, Input, Output, EventEmitter} from '@angular/core';
+import { States, ADaysM, AMonths, Calander } from '../calander';
 import { MaterialsModule } from '../../material/material.module';
-import { Calander, AMonths, ADaysM, States } from '../calander';
 
 @Component({
-  selector: 'app-month',
+  selector: 'app-day',
   standalone: true,
   imports: [CommonModule, MaterialsModule],
-  templateUrl: './month.component.html',
-  styleUrl: './month.component.css'
+  templateUrl: './day.component.html',
+  styleUrl: './day.component.css'
 })
-export class MonthComponent {
+export class DayComponent {
   states = States;
   days = ADaysM;
   months = AMonths;

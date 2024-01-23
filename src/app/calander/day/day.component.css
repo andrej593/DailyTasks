@@ -1,0 +1,19 @@
+.flex-day{
+    display: flex;
+    width: 80vw;
+}
+
+.grid-item-day {
+    flex: 1;
+    display: grid;
+    grid-template-rows: repeat(17, 4vh);
+    margin: 1em;
+}
+.dayName{
+    border: 1px solid blue;
+}
+.tasks{
+    margin: 1em;
+    border: 1px solid blue;
+    flex:1;
+}
