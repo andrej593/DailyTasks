@@ -8,30 +8,27 @@
     </div>
 </div>
 <div class="flex-day">
-    <div class="grid-item-day">
-        <div class="dayName">
-            <p>{{calander.currentDay.getDate()}}</p>
+    <div class="day">
+        <div class="hour-num">
+            <div class="EMPTY">
+            </div>
+            <div *ngFor="let n of arrayOfLength(16);index as i" class="hour">
+                {{i+8+'.00'}}
+            </div>
         </div>
-        <div *ngFor="let n of arrayOfLength(16);index as i" class="hour">
+        <div class="hour-content">
+            <div class="dayName">
+                <p>{{calander.currentDay.getDate()}}</p>
+            </div>
+            <div *ngFor="let n of arrayOfLength(16);index as i" class="hour">
 
+            </div>
         </div>
     </div>
     <div class="tasks">
         <div class="dayName">
-            <p>DAILY</p>
+            <p>TASK LIST</p>
         </div>
-        <!-- Task Component -->
-    </div>
-    <div class="tasks">
-        <div class="dayName">
-            <p>REGULAR</p>
-        </div>
-        <!-- Task Component -->
-    </div>
-    <div class="tasks">
-        <div class="dayName">
-            <p>SPECIAL</p>
-        </div>
-        <!-- Task Component -->
+        <!--<app-task *ngFor="let n of tasks" [task]="n"></app-task>-->
     </div>
 </div>

@@ -1,7 +1,7 @@
 <div class="scope-buttons">
     <button mat-raised-button color="primary" (click)="state=states.YEAR">YEAR</button>
     <button mat-raised-button color="primary" (click)="state=states.MONTH">MONTH</button>
-    <button mat-raised-button color="primary" (click)="state=states.WEEK">WEEK</button>
+    <!--<button mat-raised-button color="primary" (click)="state=states.WEEK">WEEK</button>-->
     <button mat-raised-button color="primary" (click)="state=states.DAY">DAY</button>
 </div>
 <div class="flex-months" *ngIf="state === states.YEAR">
@@ -26,12 +26,12 @@
                     [ngClass]="{'today': isToday(day.getDate()),'notInThisMonth':day.notInThisMonth}"
                     class="grid-item-day"
                     (click)="calander.currentMonth=month;calander.currentWeek=week;calander.currentDay=day;state=states.DAY;">
-                    {{day.dayInMonth}}
+                    {{day.date.getDate()}}
                 </div>
             </ng-container>
         </div>
     </div>
 </div>
-<app-month *ngIf="state === states.MONTH" [state]="state" [calander]="calander" (stateChanged)="state=$event"></app-month>
-<app-week *ngIf="state === states.WEEK" [state]="state" [calander]="calander" (stateChanged)="state=$event"></app-week>
-<app-day *ngIf="state === states.DAY" [state]="state" [calander]="calander" (stateChanged)="state=$event"></app-day>
+<app-month *ngIf="state === states.MONTH" [calander]="calander" (stateChanged)="state=$event"></app-month>
+<app-week *ngIf="state === states.WEEK" [calander]="calander" (stateChanged)="state=$event"></app-week>
+<app-day *ngIf="state === states.DAY" [calander]="calander" (stateChanged)="state=$event"></app-day>

@@ -1,0 +1,12 @@
+.inProgress{
+    background-color: white;
+}
+.completed{
+    background-color: greenyellow;
+}
+.failed{
+    background-color: red;
+}
+.excused{
+    background-color: gray;
+}

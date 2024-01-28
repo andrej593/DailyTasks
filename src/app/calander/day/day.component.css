@@ -1,19 +1,33 @@
-.flex-day{
+.flex-day {
     display: flex;
     width: 80vw;
 }
 
-.grid-item-day {
+.day {
+    flex: 1;
+    display: flex;
+    margin: 1em;
+}
+
+.hour-num {
+    display: grid;
+    grid-template-rows: repeat(17, 4vh);
+}
+
+.hour-content {
     flex: 1;
     display: grid;
     grid-template-rows: repeat(17, 4vh);
-    margin: 1em;
 }
-.dayName{
-    border: 1px solid blue;
+
+.dayName {
+    border-bottom: 1px solid blue;
 }
-.tasks{
+
+.tasks {
+    height: 68vh;
     margin: 1em;
     border: 1px solid blue;
-    flex:1;
+    flex: 1;
+    overflow: auto;
 }

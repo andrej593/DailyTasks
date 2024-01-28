@@ -3,7 +3,7 @@
     padding: 1em;
 
     display: grid;
-    grid-template-columns: auto repeat(7, 12vw);
+    grid-template-columns:/*auto*/ repeat(7, 12vw);
     grid-template-rows: auto repeat(6, 12vh);
 }
 .viewWeek{
@@ -14,6 +14,13 @@
 }
 .viewWeek:hover{
     background-color: darkgreen;
+}
+.grid-item-day:not(.dayName){
+    position: relative;
+    text-align: left;
+    overflow: auto;
+    line-height: 0.5;
+    padding: 0.5em;
 }
 .num{
     position:absolute;

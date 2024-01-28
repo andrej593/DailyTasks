@@ -1,25 +1,29 @@
 <div class="item-month">
     <div class="header">
         <button mat-icon-button (click)="stateChanged.emit(states.YEAR);"><mat-icon>fullscreen_exit</mat-icon></button>
-        <h1>{{calander.currentMonth.monthName}} {{calander.currentYear.yearNumber}}</h1>
+        <h1>{{calander.currentMonth.monthName}} {{calander.currentYear.yearNumber}} {{tasksCompleted}}/{{tasksNum}}</h1>
         <div>
-            <button mat-icon-button (click)="calander.nextMonth()"><mat-icon>chevron_left</mat-icon></button>
-            <button mat-icon-button (click)="calander.prevMonth()"><mat-icon>chevron_right</mat-icon></button>
+            <button mat-icon-button
+                (click)="calander.prevMonth();updateTasks();"><mat-icon>chevron_left</mat-icon></button>
+            <button mat-icon-button
+                (click)="calander.nextMonth();updateTasks();"><mat-icon>chevron_right</mat-icon></button>
         </div>
     </div>
     <div class="grid-days">
-        <div class="EMPTY"></div>
+        <!--<div class="EMPTY"></div>-->
         <div class="grid-item-day dayName" *ngFor="let n of arrayOfLength(7);index as i">
             {{days[i].substring(0,3)}}
         </div>
         <ng-container *ngFor="let week of calander.currentMonth.weeks">
-            <div class="viewWeek" (click)="calander.setWeek(week);stateChanged.emit(states.WEEK);"><button
-                    mat-icon-button><mat-icon>visibility</mat-icon></button></div>
+            <!--<div class="viewWeek" (click)="calander.setWeek(week);stateChanged.emit(states.WEEK);"><button
+                    mat-icon-button><mat-icon>visibility</mat-icon></button>
+            </div>-->
             <div *ngFor="let day of week.days"
                 [ngClass]="{'today':(calander.getToday() === day.getDate()), 'notInThisMonth':day.notInThisMonth }"
-                class="grid-item-day" (click)="calander.currentWeek=week;calander.currentDay=day;stateChanged.emit(states.DAY);">
-                <p class="num">{{day.dayInMonth}}</p>
-
+                class="grid-item-day"
+                (click)="calander.currentWeek=week;calander.currentDay=day;stateChanged.emit(states.DAY);">
+                <p>Tasks:{{day.tasksCompleted ? day.tasksCompleted : 0}}/{{day.tasksNum ? day.tasksNum : 0}}</p>
+                <p class="num">{{day.date.getDate()}}</p>
             </div>
         </ng-container>
     </div>

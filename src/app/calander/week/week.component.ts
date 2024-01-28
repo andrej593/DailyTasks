@@ -16,7 +16,6 @@ export class WeekComponent {
   months = AMonths;
 
   @Input() calander: Calander;
-  @Input() state: number;
   @Output() stateChanged = new EventEmitter<number>();
 
   arrayOfLength(len: number) {

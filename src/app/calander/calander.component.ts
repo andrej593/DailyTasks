@@ -25,15 +25,7 @@ export class CalanderComponent {
   arrayOfLength(len: number) {
     return new Array(len);
   }
-
   isToday(str:string){
-    /*console.log(str);
-    console.log(this.calander.getToday());
-    console.log(str == this.calander.getToday());*/
     return str == this.calander.getToday() ? true : false;
-  }
-  getMonth(month: any) {
-    this.calander.currentMonth = this.calander.currentYear.getMonth(month);
-    this.state = this.states.MONTH;
   }
 }

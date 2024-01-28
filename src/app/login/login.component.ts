@@ -2,27 +2,9 @@ import { Component, inject } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MaterialsModule } from '../material/material.module';
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { AuthService } from '../services/auth/auth.service';
-
-interface UserReturnData {
-  name: string;
-  surname: string;
-  email: string;
-
-  dateOfBirth?: string;
-  phoneNumber?: number;
-  profilPicture?: string;
-
-  //password
-  //authorityLvl:number;
-  //taskList:Array<ITask>;
-}
-
-interface IResponseBody {
-  user: UserReturnData,
-  token: string
-}
+import { UserService, IResponseBody } from '../services/user/user.service';
 
 @Component({
   selector: 'app-login',
@@ -33,7 +15,7 @@ interface IResponseBody {
 })
 export class LoginComponent {
   hiden = true;
-  http = inject(HttpClient);
+  userService=inject(UserService);
   router = inject(Router);
   auth = inject(AuthService);
 
@@ -50,16 +32,10 @@ export class LoginComponent {
 
   sumbitForm() {
     if (this.loginForm.valid) {
-      const url = "http://localhost:3000/user/login";
       const body = new HttpParams()
         .set('email', this.loginForm.controls.email.value)
         .set('password', this.loginForm.controls.password.value);
-      const options = {
-        //observe: 'response' as const,
-        headers: new HttpHeaders()
-          .set('Content-Type', 'application/x-www-form-urlencoded')
-      }
-      this.http.post<IResponseBody>(url, body, options).subscribe({
+      this.userService.login(body).subscribe({
         next: (body: IResponseBody) => {
           this.serverError ="";
           localStorage.setItem('access_token', body.token);

@@ -1,8 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { MaterialsModule } from '../material/material.module';
 import { FormControl, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
-import { HttpClient, HttpParams, HttpHeaders, HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { UserService } from '../services/user/user.service';
 
 @Component({
   selector: 'app-register',
@@ -13,12 +14,12 @@ import { Router } from '@angular/router';
 })
 
 export class RegisterComponent {
-  http = inject(HttpClient);
+  userService = inject(UserService);
   router = inject(Router);
 
   passwordMatch = ''
 
-  formErrors:IUser = {
+  formErrors: IUser = {
     name: '',
     surname: '',
     email: '',
@@ -57,19 +58,14 @@ export class RegisterComponent {
     }
 
     if (this.registerForm.valid) {
-      this.serverError='';
-      const url = "http://localhost:3000/user/register";
+      this.serverError = '';
+
       const body = new HttpParams()
         .set('name', this.registerForm.controls.name.value)
         .set('surname', this.registerForm.controls.surname.value)
         .set('email', this.registerForm.controls.email.value)
         .set('password', this.registerForm.controls.password.value);
-      const options = {
-        //observe: 'response' as const,
-        headers: new HttpHeaders()
-          .set('Content-Type', 'application/x-www-form-urlencoded')
-      }
-      this.http.post(url, body, options).subscribe({
+      this.userService.register(body).subscribe({
         next: (res) => {
           this.serverError = "";
           this.router.navigateByUrl('/login');
@@ -82,6 +78,7 @@ export class RegisterComponent {
           }
         }
       });
+
     } else {
       this.serverError = "Form not valid!";
     }

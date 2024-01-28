@@ -9,10 +9,9 @@ export class AuthService {
   isLoggedIn = signal<string | null | undefined>(undefined);
 
   setLoggedIn() {
-    if (isPlatformBrowser(this.platformId) && localStorage.getItem("access_token")) {
+    if (isPlatformBrowser(this.platformId) && localStorage.getItem("access_token"))
       this.isLoggedIn.set(localStorage.getItem("access_token"));
-    } else {
+    else
       this.isLoggedIn.set(null);
-    }
   }
 }
